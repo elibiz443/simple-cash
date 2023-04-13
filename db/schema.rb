@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_225726) do
     t.string "last_name"
     t.string "phone_number"
     t.string "email"
-    t.float "balance"
+    t.float "balance", default: 0.0
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
