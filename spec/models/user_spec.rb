@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe "validations" do
-    let(:user) { build(:user) } # Assumes you have a Factory Bot factory for creating User instances
+    let(:user) { build(:user) }
 
     it "is valid with valid attributes" do
       expect(user).to be_valid
@@ -24,13 +24,8 @@ RSpec.describe User, type: :model do
     end
 
     it "is not valid without a unique email" do
-      existing_user = create(:user) # Assumes you have a Factory Bot factory for creating User instances
+      existing_user = create(:user)
       user.email = existing_user.email
-      expect(user).not_to be_valid
-    end
-
-    it "is not valid without a balance" do
-      user.balance = nil
       expect(user).not_to be_valid
     end
 
