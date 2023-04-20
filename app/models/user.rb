@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true, length: { minimum: 6 }
 
   default_scope {order('users.created_at ASC')}
 
@@ -14,7 +16,10 @@ class User < ApplicationRecord
     secret_key = Rails.application.secret_key_base
     payload = { user_id: self.id }
     token = JWT.encode(payload, secret_key)
-    AuthToken.create(user: self, token_digest: token)
+    auth_token = AuthToken.find_or_create_by(user: self) do |token|
+      token.token_digest = token
+    end
+    auth_token.update(token_digest: token)
     token
   end
 
@@ -28,6 +33,7 @@ class User < ApplicationRecord
   end
 
   def invalidate_token
-    auth_token.destroy
+    auth_token&.destroy
+    update(auth_token: nil)
   end
 end

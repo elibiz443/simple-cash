@@ -4,10 +4,8 @@ This is an API that helps users to register and send money to each other within 
 
 ### Steps to run the app:
 ```
-git clone git@github.com:elibiz443/simple-cash.git
-bundle
-rails db:create db:migrate db:seed && rails s
-localhost:3000(in browser)
+git clone git@github.com:elibiz443/simple-cash.git && bundle && rails db:create db:migrate db:seed
+
 ```
 
 ### The making of the app:
@@ -18,8 +16,9 @@ I start by runing in terminal:
 ```
 rails new simple-cash -d postgresql --api -T && cd simple-cash
 ```
-I do this so as to generate rails 7 API skeleton app that uses:
+I do this so as to generate rails 7 API skeleton.
 
+Requirements:
 * postgresql as the database for Active Record.
 * Ruby version 3.2.0
 * Rails version 7.0.4
@@ -35,6 +34,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails", :require => false
   gem "faker"
+  gem "database_cleaner-active_record"
 end
 ```
 In Terminal, Run:

@@ -19,10 +19,11 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails", :require => false
   gem "faker"
+  gem "database_cleaner-active_record"
 end
 
 group :development do
   # gem "spring"
 end
 
-gem 'jwt'
+gem "jwt"

@@ -12,6 +12,7 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+
     if @user.save
       token = @user.generate_auth_token
       render json: { message: "User created successfully 👍", token: token, user: @user }, status: :created

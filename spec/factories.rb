@@ -2,11 +2,16 @@
 
 FactoryBot.define do
   factory :user do
-    first_name { "John" }
-    last_name  { "Doe" }
-    password   { "password" }
-    password_confirmation { "password" }
-    sequence(:email) { |n| "john.doe#{n}@example.com" }
-    sequence(:phone_number) { |n| "555-555-#{n.to_s.rjust(4, '0')}" }
+    first_name { (Faker::Name.name).split.first }
+    last_name { (Faker::Name.name).split.second }
+    email { Faker::Internet.email }
+    phone_number { Faker::PhoneNumber.phone_number }
+    password { 'password' }
+    password_confirmation { 'password' }
+  end
+
+  factory :auth_token do
+    association :user
+    token_digest { JWT.encode({ user_id: user.id }, Rails.application.secret_key_base) }
   end
 end
