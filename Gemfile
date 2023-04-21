@@ -21,6 +21,7 @@ group :development, :test do
   gem "faker"
   gem "database_cleaner-active_record"
   gem "shoulda-matchers", "~> 5.0"
+  gem "shoulda-callback-matchers"
 end
 
 group :development do

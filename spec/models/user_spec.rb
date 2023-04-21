@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { build(:user) }
+  subject(:user) { build(:user) }
   let(:user) { FactoryBot.create(:user) }
   let(:token) { JWT.encode({ user_id: user.id }, Rails.application.secret_key_base) }
 
