@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Users", type: :request do
   let(:user) { FactoryBot.create(:user) }
   let(:valid_attributes) { FactoryBot.attributes_for(:user) }
-  let(:invalid_attributes) { FactoryBot.attributes_for(:user, email: '') }
+  let(:invalid_attributes) { FactoryBot.attributes_for(:user, email: "") }
   let(:new_attributes) { FactoryBot.attributes_for(:user, first_name: "Jane") }
   let!(:user_to_delete) { FactoryBot.create(:user) }
   let(:auth_token) { FactoryBot.create(:auth_token) }
