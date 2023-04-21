@@ -1,6 +1,7 @@
 class CreateTransactions < ActiveRecord::Migration[7.0]
   def change
     create_table :transactions do |t|
+      t.float :amount
       t.date :sending_time
       t.string :email
       t.string :phone_number

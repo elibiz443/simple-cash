@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_062614) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.float "amount"
     t.date "sending_time"
     t.string "email"
     t.string "phone_number"
