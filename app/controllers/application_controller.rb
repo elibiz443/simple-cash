@@ -4,9 +4,7 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_user!
-    token = request.headers["Authorization"]&.split(' ')&.last
-    user_token = AuthToken.find_by(token_digest: token)
-
+    user_token = TokenServices.new.user_token(request)
     if user_token.nil?
       render json: { error: "Invalid token!" }, status: :unauthorized
     else

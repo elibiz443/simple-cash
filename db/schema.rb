@@ -25,8 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_062614) do
   create_table "top_ups", force: :cascade do |t|
     t.float "amount"
     t.string "phone_number"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_top_ups_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -52,5 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_062614) do
   end
 
   add_foreign_key "auth_tokens", "users"
+  add_foreign_key "top_ups", "users"
   add_foreign_key "transactions", "users"
 end

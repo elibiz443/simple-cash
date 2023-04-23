@@ -1,15 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe TopUp, type: :model do
-  let(:user) { FactoryBot.create(:user, phone_number: "245-780-8171 x783") }
-  let(:top_up_attributes) { FactoryBot.attributes_for(:top_up, phone_number: user.phone_number) }
-  let(:non_existent_user) { FactoryBot.attributes_for(:top_up) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:valid_params) { { amount: 100, phone_number: user.phone_number, user_id: user.id } }
+  let(:non_existent_user) { { amount: 100, phone_number: "1234567890", user_id: user.id } }
   subject(:top_up) { build(:top_up) }
 
   describe "before_create" do
+    describe 'associations' do
+      it { should belong_to(:user) }
+    end
+
     context "when user exists" do
       it "creates a new top_up" do
-        new_top_up = TopUp.new(top_up_attributes)
+        new_top_up = TopUp.new(valid_params)
         expect { new_top_up.save }.to change { TopUp.count }.by(1)
       end
     end
@@ -42,6 +46,10 @@ RSpec.describe TopUp, type: :model do
     context "before_create" do
       it "verifies the existence of user" do
         should callback(:verify_user).before(:create)
+      end
+
+      it "verifies the existence of current user" do
+        should callback(:verify_current_user).before(:create)
       end
     end
   end

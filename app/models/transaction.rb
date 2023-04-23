@@ -2,11 +2,12 @@ class Transaction < ApplicationRecord
   before_create :capture_sending_time
   before_create :verify_recipient_user
   before_create :verify_amount
+  before_create :block_self_transfer
 
   belongs_to :user
 
   validates :amount, presence: true, numericality: { greater_than: 0, message: "must be present or greater than 0❗" }
-  validates :phone_number, presence: true, :numericality => true, :length => { :minimum => 9, :maximum => 13 }, unless: :email
+  validates :phone_number, presence: true, unless: :email
   validates :email, presence: true, format: {with: URI::MailTo::EMAIL_REGEXP}, unless: :phone_number
 
   def capture_sending_time
@@ -16,6 +17,13 @@ class Transaction < ApplicationRecord
   def verify_recipient_user
     unless User.exists?(phone_number: self.phone_number) || User.exists?(email: self.email)
       errors.add(:phone_number_or_email, "does not exist 🚫")
+      throw(:abort)
+    end
+  end
+
+  def block_self_transfer
+    unless user.phone_number != self.phone_number
+      errors.add(:phone_number, "incorrect 🚫 you cannot send to self ❌")
       throw(:abort)
     end
   end
