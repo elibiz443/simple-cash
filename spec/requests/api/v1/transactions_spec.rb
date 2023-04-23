@@ -57,4 +57,29 @@ RSpec.describe "Api::V1::Transactions", type: :request do
       end
     end
   end
+
+  describe "POST /notifications" do
+    let(:sender) { FactoryBot.create(:user) }
+    let(:recipient) { FactoryBot.create(:user, balance: 27225.82) }
+    let(:full_name) { sender.first_name.to_s + " " + sender.last_name.to_s }
+    let(:valid_params) { { amount: 100.0, phone_number: recipient.phone_number } }
+    let(:auth_token) { FactoryBot.create(:auth_token, user: sender) }
+    let!(:token) { { "Authorization" => "Bearer #{ auth_token.token_digest }" } }
+
+    context "with valid params" do
+      before do
+        post "/api/v1/transactions", params: valid_params, headers: token
+      end
+
+      it "creates a notification for the recipient" do
+        expect(Notification.last.detail).to include(full_name)
+        expect(Notification.last.user_id).to eq(recipient.id)
+      end
+
+      it "sends an email to the recipient" do
+        expect(ActionMailer::Base.deliveries.last.to).to eq([recipient.email])
+        expect(ActionMailer::Base.deliveries.last.body).to include(full_name)
+      end
+    end
+  end
 end
