@@ -6,11 +6,11 @@ RSpec.describe TopUp, type: :model do
   let(:non_existent_user) { { amount: 100, phone_number: "1234567890", user_id: user.id } }
   subject(:top_up) { build(:top_up) }
 
-  describe "before_create" do
-    describe 'associations' do
-      it { should belong_to(:user) }
-    end
+  describe "associations" do
+    it { should belong_to(:user) }
+  end
 
+  describe "before_create" do
     context "when user exists" do
       it "creates a new top_up" do
         new_top_up = TopUp.new(valid_params)

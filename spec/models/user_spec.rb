@@ -13,6 +13,8 @@ RSpec.describe User, type: :model do
 
   describe "associations" do
     it { should have_one(:auth_token).dependent(:destroy) }
+    it { should have_many(:transactions) }
+    it { should have_many(:top_ups) }
   end
 
   describe "validations" do

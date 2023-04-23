@@ -21,4 +21,9 @@ FactoryBot.define do
     amount { rand(100.0..20000.0).round(2) }
     phone_number { Faker::PhoneNumber.phone_number }
   end
+
+  factory :transaction do
+    association :user
+    amount { rand(100.0..20000.0).round(2) }
+  end
 end

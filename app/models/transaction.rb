@@ -22,8 +22,8 @@ class Transaction < ApplicationRecord
   end
 
   def block_self_transfer
-    unless user.phone_number != self.phone_number
-      errors.add(:phone_number, "incorrect 🚫 you cannot send to self ❌")
+    unless user.phone_number != self.phone_number && user.email != self.email
+      errors.add(:phone_number_or_email, "incorrect 🚫 you cannot transfer to self ❌")
       throw(:abort)
     end
   end
