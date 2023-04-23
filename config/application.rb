@@ -23,6 +23,22 @@ module SimpleCash
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    config.action_mailer.delivery_method = :smtp
+    host = "localhost:3000"
+    config.action_mailer.default_url_options = { :host => "localhost:3000", protocol: "http" }
+
+    my_user_name = "ellyambet10@gmail.com"
+    my_password = "srvklnwqmofnvguy"
+
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => my_user_name,
+      :password             => my_password,
+      :authentication       => "plain",
+      :enable_starttls_auto => true
+    }
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
