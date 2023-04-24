@@ -29,6 +29,11 @@ RSpec.describe "Api::V1::Reports", type: :request do
         expect(json["report"]["end_date"]).to eq(report.end_date.iso8601)
         expect(json["transactions"].size).to eq(user.transactions.size)
       end
+
+      it "sends an email to the user" do
+        expect(ActionMailer::Base.deliveries.last.to).to eq([user.email])
+        expect(ActionMailer::Base.deliveries.last.body).to include("The following are all your transactions between:")
+      end
     end
 
     context "with invalid parameters" do
