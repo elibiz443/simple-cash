@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <section>
+      <h3><u>Transactions report within the period specified:</u></h3>
+      <p><b><%= @info %></b></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Sending Time</th>
+            <th>Phone Number/Email</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @transactions.each do |transaction| %>
+            <tr>
+              <td><%= transaction["sending_time"] %></td>
+              <td><%= transaction["phone_number"] %>, <%= transaction["email"] %></td>
+              <td><%= transaction["amount"] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
