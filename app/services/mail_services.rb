@@ -11,7 +11,7 @@ class MailServices
 
   def send_report(info, recipient_email, transactions)
     begin
-      ReportMailer.send_info_email(info, recipient_email, transactions).deliver_now
+      ReportMailer.send_info_email(info, recipient_email, transactions).deliver_later
     rescue StandardError
       "error!"
     else
