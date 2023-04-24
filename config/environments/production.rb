@@ -1,6 +1,21 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { :host => "simplecash.herokuapp.com", protocol: "http" }
+
+  my_user_name = "ellyambet10@gmail.com"
+  my_password = "srvklnwqmofnvguy"
+
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => my_user_name,
+    :password             => my_password,
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
+    
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
