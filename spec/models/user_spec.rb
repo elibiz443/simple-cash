@@ -15,6 +15,7 @@ RSpec.describe User, type: :model do
     it { should have_one(:auth_token).dependent(:destroy) }
     it { should have_many(:transactions) }
     it { should have_many(:top_ups) }
+    it { should have_many(:reports) }
   end
 
   describe "validations" do

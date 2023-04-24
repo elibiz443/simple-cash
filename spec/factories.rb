@@ -26,4 +26,10 @@ FactoryBot.define do
     association :user
     amount { rand(100.0..20000.0).round(2) }
   end
+
+  factory :report do
+    association :user
+    start_date { Time.zone.now - 100.days }
+    end_date { Time.zone.now }
+  end
 end
