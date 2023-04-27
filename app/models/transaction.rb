@@ -7,8 +7,7 @@ class Transaction < ApplicationRecord
   belongs_to :user
 
   validates :amount, presence: true, numericality: { greater_than: 0, message: "must be present or greater than 0❗" }
-  validates :phone_number, presence: true, unless: :email
-  validates :email, presence: true, format: {with: URI::MailTo::EMAIL_REGEXP}, unless: :phone_number
+  validates_format_of :phone_number_or_email, with: /\A(?:\d{10}|[^\s@]+@[^\s@]+\.[^\s@]+)\z/i, message: "must be a valid phone number or email address❗"
 
   def capture_sending_time
     self.sending_time = Time.now

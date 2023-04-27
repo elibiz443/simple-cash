@@ -12,8 +12,8 @@ class Api::V1::TopUpsController < ApplicationController
 
     if @top_up.save
       user = User.find_by(phone_number: phone_number)
-      user.update(balance: (user.balance + @top_up.amount))
-      render json: { message: "Top Up Successful 👍", current_balance: user.balance }, status: :created
+      user.update(balance: (user.balance + amount))
+      render json: { message: "Top Up Successful 👍 Balance: #{user.balance}", current_balance: user.balance }, status: :created
     else
       render json: { errors: @top_up.errors.full_messages }, status: :unprocessable_entity
     end

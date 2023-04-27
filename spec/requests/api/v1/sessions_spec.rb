@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::Sessions", type: :request do
     context "with valid credentials" do
       it "returns a success response with an authentication token" do
         post "/api/v1/login", params: { email: user.email, password: user.password }
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:created)
         expect(response.body).to include("token")
       end
     end

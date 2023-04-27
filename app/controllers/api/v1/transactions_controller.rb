@@ -27,7 +27,7 @@ class Api::V1::TransactionsController < ApplicationController
       Notification.create(detail: "#{info}", user_id: recipient.id)
       MailServices.new.send_mail(info, recipient_email)
 
-      render json: { message: "Transaction Successful 👍", user_balance: sender.balance, recipient_balance: recipient.balance, transaction: @transaction }, status: :created
+      render json: { message: "Transaction Successful 👍 Remaining Balance: #{sender.balance}", user_balance: sender.balance, recipient_balance: recipient.balance, transaction: @transaction }, status: :created
     else
       render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
     end
