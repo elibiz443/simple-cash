@@ -7,21 +7,21 @@ class Transaction < ApplicationRecord
   belongs_to :user
 
   validates :amount, presence: true, numericality: { greater_than: 0, message: "must be present or greater than 0❗" }
-  validates_format_of :phone_number_or_email, with: /\A(?:\d{10}|[^\s@]+@[^\s@]+\.[^\s@]+)\z/i, message: "must be a valid phone number or email address❗"
+  validates_format_of :phone_number_or_email, with: /\A(?:\+\d{1,3}\s*(?:\d[\s-]*){9,10}|[^\s@]+@[^\s@]+\.[^\s@]+)\z/i, message: "must be a valid phone number or email address❗"
 
   def capture_sending_time
     self.sending_time = Time.now
   end
 
   def verify_recipient_user
-    unless User.exists?(phone_number: self.phone_number) || User.exists?(email: self.email)
+    unless User.exists?(phone_number: self.phone_number_or_email) || User.exists?(email: self.phone_number_or_email)
       errors.add(:phone_number_or_email, "does not exist 🚫")
       throw(:abort)
     end
   end
 
   def block_self_transfer
-    unless user.phone_number != self.phone_number && user.email != self.email
+    unless user.phone_number != self.phone_number_or_email && user.email != self.phone_number_or_email
       errors.add(:phone_number_or_email, "incorrect 🚫 you cannot transfer to self ❌")
       throw(:abort)
     end

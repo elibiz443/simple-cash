@@ -19,7 +19,7 @@
           <% @transactions.each do |transaction| %>
             <tr>
               <td><%= transaction["sending_time"] %></td>
-              <td><%= transaction["phone_number"] %>, <%= transaction["email"] %></td>
+              <td><%= transaction["phone_number_or_email"] %></td>
               <td><%= transaction["amount"] %></td>
             </tr>
           <% end %>

@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
 
   create_table "notifications", force: :cascade do |t|
     t.string "detail"
+    t.string "status", default: "unread"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
