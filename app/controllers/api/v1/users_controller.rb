@@ -1,9 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :authenticate_user!, except: [:create]
+  load_and_authorize_resource
 
   def index
-    render json: { users: User.all }
+    @users = User.all
+    render json: { users: @users }
   end
 
   def show

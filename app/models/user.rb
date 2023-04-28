@@ -27,7 +27,7 @@ class User < ApplicationRecord
   def self.find_by_token(token)
     begin
       decoded_payload = JWT.decode(token, Rails.application.secret_key_base)[0]
-      User.find(decoded_payload['user_id'])
+      User.find(decoded_payload["user_id"])
     rescue JWT::DecodeError
       nil
     end
@@ -36,5 +36,9 @@ class User < ApplicationRecord
   def invalidate_token
     auth_token&.destroy
     update(auth_token: nil)
+  end
+
+  def admin?
+    role == "admin"
   end
 end

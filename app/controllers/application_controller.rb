@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_user!
 
+  rescue_from CanCan::AccessDenied do |exception|
+    message = "You are not authorized to perform this action❗You must be an admin to perform this operation🚫"
+    render json: { error: message }, status: :forbidden
+  end
+
   private
 
   def authenticate_user!
@@ -12,5 +17,9 @@ class ApplicationController < ActionController::API
       user = User.find(user_id)
       @current_user = user
     end
+  end
+
+  def current_user
+    @current_user
   end
 end
