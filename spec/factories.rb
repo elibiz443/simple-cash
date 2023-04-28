@@ -7,6 +7,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     phone_number { Faker::PhoneNumber.phone_number }
     balance { rand(10000.0..50000.0).round(2) }
+    role { "admin" }
     password { "password" }
     password_confirmation { "password" }
   end
@@ -31,5 +32,10 @@ FactoryBot.define do
     association :user
     start_date { Time.zone.now - 100.days }
     end_date { Time.zone.now }
+  end
+
+  factory :notification do
+    association :user
+    detail { Faker::Lorem.sentence }
   end
 end

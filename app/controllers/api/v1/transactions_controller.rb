@@ -51,11 +51,15 @@ class Api::V1::TransactionsController < ApplicationController
     @notification.update(status: "read")
     render json: { notification: @notification }, status: :ok
   end
-
+  
   def delete_notification
     id = params[:id]
     @notification = Notification.find_by(id: id)
-    @notification.destroy
-    render json: { message: "Notification deleted successfully ❌" }, status: :ok
+    if @notification.nil?
+      render json: { error: "Notification not found!" }, status: :not_found
+    else
+      @notification.destroy
+      render json: { message: "Notification deleted successfully ❌" }, status: :ok
+    end
   end
 end

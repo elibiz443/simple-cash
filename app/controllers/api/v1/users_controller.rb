@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :authenticate_user!, except: [:create]
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:create]
 
   def index
     @users = User.all
