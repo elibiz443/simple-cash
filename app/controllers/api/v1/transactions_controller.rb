@@ -31,4 +31,31 @@ class Api::V1::TransactionsController < ApplicationController
       render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  def get_notifications
+    user_token = TokenServices.new.user_token(request)
+    user_id = user_token.user_id
+    @notifications = Notification.where(user_id: user_id)
+    render json: { notifications: @notifications }, status: :ok
+  end
+
+  def get_notification
+    id = params[:id]
+    @notification = Notification.find_by(id: id)
+    render json: { notification: @notification }, status: :ok
+  end
+
+  def update_notification_status
+    id = params[:id]
+    @notification = Notification.find_by(id: id)
+    @notification.update(status: "read")
+    render json: { notification: @notification }, status: :ok
+  end
+
+  def delete_notification
+    id = params[:id]
+    @notification = Notification.find_by(id: id)
+    @notification.destroy
+    render json: { message: "Notification deleted successfully ❌" }, status: :ok
+  end
 end

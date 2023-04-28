@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       resources :top_ups
       resources :transactions
       resources :reports
+      get "/notifications", to: "transactions#get_notifications"
+      get "/notifications/:id", to: "transactions#get_notification"
+      patch "/notifications/:id", to: "transactions#update_notification_status"
+      delete "/notifications/:id", to: "transactions#delete_notification"
     end
   end
 end
