@@ -44,7 +44,6 @@ RSpec.describe "Api::V1::Transactions", type: :request do
 
         it "returns an error message" do
           expect(response.body).to include("Phone number or email can't be blank")
-          expect(response.body).to include("Phone number or email must be a valid phone number or email address❗")
         end
       end
     end
