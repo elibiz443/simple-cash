@@ -85,3 +85,8 @@ API Endpoints:
 ```
 https://simplecash.herokuapp.com
 ```
+
+#### Published API Documentation Link:
+```
+https://documenter.getpostman.com/view/5291351/2s93eSYv8g
+```
