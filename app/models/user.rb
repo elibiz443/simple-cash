@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :transactions, dependent: :destroy
   has_many :top_ups, dependent: :destroy
   has_many :reports, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_secure_password
 
