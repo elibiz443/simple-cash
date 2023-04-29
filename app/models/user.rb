@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_one :auth_token, dependent: :destroy
-  has_many :transactions
-  has_many :top_ups
-  has_many :reports
+  has_many :transactions, dependent: :destroy
+  has_many :top_ups, dependent: :destroy
+  has_many :reports, dependent: :destroy
 
   has_secure_password
 
