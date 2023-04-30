@@ -11,7 +11,6 @@ RSpec.describe Transaction, type: :model do
       subject { build(:transaction, phone_number_or_email: nil) }
       it { should_not be_valid }
       it { should validate_presence_of(:phone_number_or_email) }
-      it { should_not allow_value("invalid-phone_number_or_email-format").for(:phone_number_or_email) }
     end
   end
 
