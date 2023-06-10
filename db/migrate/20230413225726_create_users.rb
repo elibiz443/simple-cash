@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :last_name
       t.string :phone_number
       t.string :email
+      t.string :currency, default: "USD"
       t.float :balance, default: 0.0
       t.string :role, default: "client"
       t.string :password_digest

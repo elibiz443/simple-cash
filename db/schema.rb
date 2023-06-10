@@ -64,6 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
     t.string "last_name"
     t.string "phone_number"
     t.string "email"
+    t.string "currency", default: "USD"
     t.float "balance", default: 0.0
     t.string "role", default: "client"
     t.string "password_digest"
