@@ -1,6 +1,4 @@
 class Api::V1::TransactionsController < ApplicationController
-  before_action :authenticate_user!
-
   def create
     user_token = TokenServices.new.user_token(request)
 
