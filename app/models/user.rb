@@ -11,6 +11,7 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :currency, presence: true
 
   default_scope {order('users.created_at ASC')}
 
