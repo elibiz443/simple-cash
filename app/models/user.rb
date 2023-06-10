@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_one :auth_token, dependent: :destroy
   has_many :transactions, dependent: :destroy
-  has_many :top_ups, dependent: :destroy
+  has_many :wallets, dependent: :destroy
+  has_many :top_ups, :through => :wallet
   has_many :reports, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
@@ -11,7 +12,6 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :currency, presence: true
 
   default_scope {order('users.created_at ASC')}
 

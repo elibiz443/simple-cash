@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_10_095816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,10 +43,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
   create_table "top_ups", force: :cascade do |t|
     t.float "amount"
     t.string "phone_number"
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_top_ups_on_user_id"
+    t.bigint "wallet_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -64,7 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
     t.string "last_name"
     t.string "phone_number"
     t.string "email"
-    t.string "currency", default: "USD"
     t.float "balance", default: 0.0
     t.string "role", default: "client"
     t.string "password_digest"
@@ -72,9 +70,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_201603) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "wallets", force: :cascade do |t|
+    t.float "amount"
+    t.string "currency"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wallets_on_user_id"
+  end
+
   add_foreign_key "auth_tokens", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "reports", "users"
-  add_foreign_key "top_ups", "users"
   add_foreign_key "transactions", "users"
+  add_foreign_key "wallets", "users"
 end
