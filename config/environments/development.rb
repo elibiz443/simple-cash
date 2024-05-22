@@ -42,8 +42,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => "localhost:3000", protocol: "http" }
 
-  my_user_name = Rails.application.credentials[:development][:my_user_name]
-  my_password = Rails.application.credentials[:development][:my_password]
+  my_user_name = Rails.application.credentials[:MAILER][:ADDRESS]
+  my_password = Rails.application.credentials[:MAILER][:PASSWORD]
 
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",

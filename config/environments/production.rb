@@ -64,8 +64,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => "simplecash.herokuapp.com", protocol: "http" }
 
-  my_user_name = Rails.application.credentials[:production][:my_user_name]
-  my_password = Rails.application.credentials[:production][:my_password]
+  my_user_name = Rails.application.credentials[:MAILER][:ADDRESS]
+  my_password = Rails.application.credentials[:MAILER][:PASSWORD]
 
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",
