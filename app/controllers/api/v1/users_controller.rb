@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: { users: @users }
+    render json: { users: @users }, status: :ok
   end
 
   def show
@@ -25,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      render json: { message: "User updated successfully 👍", User: @user }, status: :ok
+      render json: { message: "User updated successfully 👍", user: @user }, status: :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -39,7 +39,8 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    render json: { error: 'User not found' }, status: :not_found unless @user
   end
 
   def user_params
