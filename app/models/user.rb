@@ -2,22 +2,22 @@ class User < ApplicationRecord
   has_one :auth_token, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :wallets, dependent: :destroy
-  has_many :top_ups, :through => :wallet
+  has_many :top_ups, through: :wallets
   has_many :reports, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
   has_secure_password
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: {with: URI::MailTo::EMAIL_REGEXP}
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone_number, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  default_scope {order('users.created_at ASC')}
+  default_scope { order(created_at: :asc) }
 
   def generate_auth_token
     secret_key = Rails.application.secret_key_base
-    payload = { user_id: self.id }
+    payload = { user_id: id }
     token = JWT.encode(payload, secret_key)
     auth_token = AuthToken.find_or_create_by(user: self) do |token|
       token.token_digest = token
@@ -29,7 +29,7 @@ class User < ApplicationRecord
   def self.find_by_token(token)
     begin
       decoded_payload = JWT.decode(token, Rails.application.secret_key_base)[0]
-      User.find(decoded_payload["user_id"])
+      find(decoded_payload["user_id"])
     rescue JWT::DecodeError
       nil
     end
