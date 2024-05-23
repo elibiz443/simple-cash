@@ -3,7 +3,6 @@ class TopUp < ApplicationRecord
   before_create :verify_current_user
 
   belongs_to :wallet
-  belongs_to :user, :through => :wallet
 
   validates :amount, presence: true, numericality: { 
     greater_than: 0, message: "must be present or greater than 0❗" }
