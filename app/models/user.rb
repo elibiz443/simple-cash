@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_one :auth_token, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :wallets, dependent: :destroy
-  has_many :top_ups, through: :wallets
+  has_many :top_ups, dependent: :destroy
   has_many :reports, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  default_scope { order(created_at: :asc) }
+  default_scope { order(created_at: :desc) }
 
   def generate_auth_token
     secret_key = Rails.application.secret_key_base

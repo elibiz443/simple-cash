@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_06_10_095816) do
+ActiveRecord::Schema[7.1].define(version: 2023_04_23_201603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,15 +43,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_06_10_095816) do
   create_table "top_ups", force: :cascade do |t|
     t.float "amount"
     t.string "phone_number"
+    t.string "currency"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "wallet_id"
+    t.index ["user_id"], name: "index_top_ups_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
     t.float "amount"
     t.date "sending_time"
     t.string "phone_number_or_email"
+    t.string "currency"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -63,7 +66,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_06_10_095816) do
     t.string "last_name"
     t.string "phone_number"
     t.string "email"
-    t.float "balance", default: 0.0
     t.string "role", default: "client"
     t.string "password_digest"
     t.datetime "created_at", null: false
@@ -71,7 +73,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_06_10_095816) do
   end
 
   create_table "wallets", force: :cascade do |t|
-    t.float "amount"
+    t.float "balance", default: 0.0
     t.string "currency"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -82,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_06_10_095816) do
   add_foreign_key "auth_tokens", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "reports", "users"
+  add_foreign_key "top_ups", "users"
   add_foreign_key "transactions", "users"
   add_foreign_key "wallets", "users"
 end

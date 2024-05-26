@@ -9,6 +9,8 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0, message: "must be present or greater than 0❗" }
   validates :phone_number_or_email, presence: true
 
+  default_scope { order(created_at: :desc) }
+
   def capture_sending_time
     self.sending_time = Time.zone.now
   end
