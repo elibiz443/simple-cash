@@ -1,63 +1,17 @@
 class Api::V1::TransactionsController < ApplicationController
   def create
-    user_token = TokenServices.new.user_token(request)
-
-    amount = params[:amount].to_f
-    phone_number_or_email = params[:phone_number_or_email]
-    user_id = user_token.user_id
-
-    @transaction = Transaction.new(amount: amount, phone_number_or_email: phone_number_or_email, user_id: user_id)
+    @transaction = Transaction.new(transaction_params)
 
     if @transaction.save
-      sender = User.find_by(id: user_id)
-      recipient = User.find_by(phone_number: phone_number_or_email) || User.find_by(email: phone_number_or_email)
-
-      unique_code = SecureRandom.hex(3).upcase + "-" + sender.id.to_s + recipient.id.to_s + @transaction.id.to_s
-      full_name = sender.first_name.to_s + " " + sender.last_name.to_s
-
-      sender.update(balance: (sender.balance - amount))
-      recipient.update(balance: (recipient.balance + amount))
-
-      info = "#{unique_code} Confirmed. You have received Ksh#{amount} from #{full_name} #{sender.phone_number} on #{(Time.now).strftime("%d/%m/%y")} at #{(Time.now).strftime("%H:%M %p")} new balance is Ksh#{recipient.balance}"
-      recipient_email = recipient.email
-      
-      Notification.create(detail: "#{info}", user_id: recipient.id)
-      MailServices.new.send_mail(info, recipient_email)
-
-      render json: { message: "Transaction Successful 👍 Remaining Balance: #{sender.balance}", user_balance: sender.balance, recipient_balance: recipient.balance, transaction: @transaction }, status: :created
+      render json: { message: "Transaction Successful 👍", transaction: @transaction }, status: :created
     else
       render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  def get_notifications
-    user_token = TokenServices.new.user_token(request)
-    user_id = user_token.user_id
-    @notifications = Notification.where(user_id: user_id)
-    render json: { notifications: @notifications }, status: :ok
-  end
+  private
 
-  def get_notification
-    id = params[:id]
-    @notification = Notification.find_by(id: id)
-    render json: { notification: @notification }, status: :ok
-  end
-
-  def update_notification_status
-    id = params[:id]
-    @notification = Notification.find_by(id: id)
-    @notification.update(status: "read")
-    render json: { notification: @notification }, status: :ok
-  end
-  
-  def delete_notification
-    id = params[:id]
-    @notification = Notification.find_by(id: id)
-    if @notification.nil?
-      render json: { error: "Notification not found!" }, status: :not_found
-    else
-      @notification.destroy
-      render json: { message: "Notification deleted successfully ❌" }, status: :ok
-    end
+  def transaction_params
+    params.require(:transaction).permit(:amount, :currency, :phone_number_or_email, :sending_time, :user_id)
   end
 end
