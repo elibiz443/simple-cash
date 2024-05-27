@@ -6,7 +6,6 @@ FactoryBot.define do
     last_name { (Faker::Name.name).split.second }
     email { Faker::Internet.email }
     phone_number { Faker::PhoneNumber.phone_number }
-    balance { rand(10000.0..50000.0).round(2) }
     role { "admin" }
     password { "password" }
     password_confirmation { "password" }

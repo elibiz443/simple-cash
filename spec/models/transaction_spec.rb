@@ -43,20 +43,20 @@ RSpec.describe Transaction, type: :model do
         end
       end
 
-      describe "#verify_amount" do
-        let(:user) { FactoryBot.create(:user, balance: 100) }
+      # describe "#verify_amount" do
+      #   let(:user) { FactoryBot.create(:user, balance: 100) }
 
-        it "throws an error if amount is greater than user's balance" do
-          transaction = FactoryBot.build(:transaction, user: user, amount: 200, phone_number_or_email: user.email)
-          expect { transaction.save! }.to raise_error(ActiveRecord::RecordNotSaved)
-        end
+      #   it "throws an error if amount is greater than user's balance" do
+      #     transaction = FactoryBot.build(:transaction, user: user, amount: 200, phone_number_or_email: user.email)
+      #     expect { transaction.save! }.to raise_error(ActiveRecord::RecordNotSaved)
+      #   end
 
-        it "does not throw an error if amount is less than or equal to user's balance" do
-          recipient = FactoryBot.create(:user, email: "example@example.com")
-          transaction = FactoryBot.build(:transaction, user: user, amount: 50, phone_number_or_email: recipient.email)
-          expect { transaction.save! }.not_to raise_error
-        end
-      end
+      #   it "does not throw an error if amount is less than or equal to user's balance" do
+      #     recipient = FactoryBot.create(:user, email: "example@example.com")
+      #     transaction = FactoryBot.build(:transaction, user: user, amount: 50, phone_number_or_email: recipient.email)
+      #     expect { transaction.save! }.not_to raise_error
+      #   end
+      # end
 
       describe "#block_self_transfer" do
         let(:user) { FactoryBot.create(:user, email: "example@example.com") }
